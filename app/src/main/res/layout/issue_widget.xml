@@ -1,26 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/widget_margin"
-                android:background="#09C">
+                android:orientation="vertical"
+                android:background="@color/widgetWhite">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/border_bottom">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Github Issues"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:textAllCaps="false"
+                    android:drawableEnd="@drawable/change_repo"
+                    android:drawablePadding="10dp"
+                    android:background="#00000000"/>
+
+        <ImageButton android:layout_width="30dp"
+                     android:layout_height="30dp"
+                     android:layout_alignParentEnd="true"
+                     android:layout_centerVertical="true"
+                     android:background="#00000000"
+                     android:src="@drawable/setting"
+                     android:scaleType="centerInside"/>
+    </RelativeLayout>
 
     <ListView
             android:id="@+id/issue_list_view"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
-
     <TextView
-            android:id="@+id/appwidget_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/appwidget_text"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
-            android:textStyle="bold|italic"
-            android:layout_margin="8dp"
-            android:contentDescription="@string/appwidget_text"
-            android:background="#09C"/>
+            android:id="@+id/issue_empty_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:text="There is no issue!"
+            android:gravity="center"
+            android:textSize="23sp"/>
 
-</RelativeLayout>
+
+</LinearLayout>
