@@ -5,23 +5,36 @@
                 android:background="@color/widgetWhite">
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
+            android:layout_height="45dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
             android:background="@drawable/border_bottom">
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Github Issues"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:textAllCaps="false"
-                    android:drawableEnd="@drawable/change_repo"
-                    android:drawablePadding="10dp"
-                    android:background="#00000000"/>
+        <Button
+                android:id="@+id/repo_select_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Github Issues"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#000"
+                android:textAllCaps="false"
+                android:drawableEnd="@drawable/change_repo"
+                android:drawablePadding="10dp"
+                android:background="#00000000"/>
 
-        <ImageButton android:layout_width="30dp"
+        <ImageButton
+                android:id="@+id/update_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="#00000000"
+                android:src="@drawable/update"
+                android:scaleType="centerInside"
+                android:layout_alignTop="@+id/setting_btn"
+                android:layout_toStartOf="@+id/setting_btn" android:layout_marginEnd="10dp"/>
+
+        <ImageButton
+                    android:id="@+id/setting_btn"
+                    android:layout_width="30dp"
                      android:layout_height="30dp"
                      android:layout_alignParentEnd="true"
                      android:layout_centerVertical="true"
@@ -33,14 +46,16 @@
     <ListView
             android:id="@+id/issue_list_view"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
+            android:layout_width="match_parent"
+            android:divider="#e6e6e6"
+            android:dividerHeight="0.8dp"/>
     <TextView
             android:id="@+id/issue_empty_view"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:text="There is no issue!"
             android:gravity="center"
-            android:textSize="23sp"/>
+            android:textSize="21sp"/>
 
 
 </LinearLayout>

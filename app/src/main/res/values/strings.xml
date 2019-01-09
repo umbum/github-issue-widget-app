@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">github issue widget</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">github issue widget</string>
     <string name="add_widget">Add widget</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <!-- Strings related to Configure -->
+    <string name="title_activity_config">Settings</string>
+    <string name="config_login">Login</string>
 </resources>

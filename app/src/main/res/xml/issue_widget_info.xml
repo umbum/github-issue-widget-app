@@ -8,4 +8,5 @@
                     android:resizeMode="horizontal|vertical"
                     android:widgetCategory="home_screen"
                     android:initialKeyguardLayout="@layout/issue_widget">
+                    <!--android:configure="com.tistory.umbum.github_issue_widget_app.ConfigActivity">-->
 </appwidget-provider>

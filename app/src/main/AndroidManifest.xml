@@ -2,21 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.tistory.umbum.github_issue_widget_app">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <receiver android:name=".IssueWidget">
+        <receiver android:name=".widget.IssueWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -27,11 +22,37 @@
         </receiver>
 
         <service
-                android:name=".IssueWidgetService"
+                android:name=".widget.IssueListService"
                 android:enabled="true"
-                android:permission="android.permission.BIND_REMOTEVIEWS"
-                android:exported="false">
+                android:exported="false"
+                android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
+
+        <activity
+                android:name=".LoginActivity"
+                android:label="@string/app_name"
+                android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                        android:host="login"
+                        android:scheme="github-issue-widget"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".ConfigActivity"
+                android:label="@string/title_activity_config">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".RepoSelectActivity">
+        </activity>
     </application>
 
 </manifest>
