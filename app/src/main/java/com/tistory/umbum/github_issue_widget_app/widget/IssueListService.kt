@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
@@ -15,6 +16,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class IssueListService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
         return IssueListFactory(this.applicationContext, intent)
@@ -25,6 +27,7 @@ class IssueListService : RemoteViewsService() {
 class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsService.RemoteViewsFactory {
     val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
     val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
+    var allIssueFlag = false
     private var issueItems = emptyList<IssueItem>()
 
     override fun onCreate() {
@@ -70,9 +73,11 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
             val repo = user_and_repo[1]
             Log.d(DBG_TAG, "[request] ${user}/${repo}" )
             request = service.requestIssues(token_string, user, repo)
+            allIssueFlag = false
         }
         else {
             request = service.requestAllIssues(token_string)
+            allIssueFlag = true
         }
 
         // enqueue로 안하고 execute로 하는건, 이 함수가 끝나고 나서 getCount가 호출되면서 그 크기만큼 getViewAt이 호출되는데
@@ -99,8 +104,12 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
          * A loading view will show up in lieu of the actual contents in the interim
          */
 
-        val view = RemoteViews(context.packageName, R.layout.issue_item)
-        view.setTextViewText(R.id.issue_item, issueItems[position].title)
+        // setViewVisibility로 issue_repository를 안보이게 만들 수 있긴 한데, padding처리를 따로 해줘야해서 지저분하고, 아래처럼 처리하는게 더 좋은 방법이다.
+        val view = RemoteViews(context.packageName, if (allIssueFlag) R.layout.issue_item_title_repo else R.layout.issue_item_only_title)
+        view.setTextViewText(R.id.issue_title, issueItems[position].title)
+        if (allIssueFlag) {
+            view.setTextViewText(R.id.issue_repository, issueItems[position].repository.full_name)
+        }
 
         // 위젯 버튼에 웹브라우저로 연결하는 이벤트 달기.
         // 이 것도 Chrome Custom Tab으로 해버리지 뭐. 그래야 앱에 자연스럽게 포함된 기능같이 보이니까.
@@ -120,7 +129,8 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
     }
 
     override fun getViewTypeCount(): Int {
-        return 1
+        // issue_item의 layout으로 2종류를 사용하니까, getViewTypeCount는 2를 리턴해야 한다.
+        return 2
     }
 
     override fun onDestroy() {

@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val ALL_ISSUES_ID = 0
-const val ALL_ISSUES_NAME = "[All issues]"
+const val ALL_ISSUES_NAME = "[All assigned issues]"
 
 class RepoSelectActivity : AppCompatActivity() {
     companion object {
