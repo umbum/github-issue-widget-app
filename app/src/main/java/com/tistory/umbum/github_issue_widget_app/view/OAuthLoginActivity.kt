@@ -8,7 +8,6 @@ import android.util.Log
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.helper.openCustomTab
-import com.tistory.umbum.github_issue_widget_app.repository.AccessTokenRepository
 import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModel
 
 
@@ -26,7 +25,7 @@ class OAuthLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mViewModel = OAuthLoginViewModel(this)
+        mViewModel = OAuthLoginViewModel(this.application)
 
         val uri = Uri.Builder()
                 .scheme("https")
@@ -46,16 +45,7 @@ class OAuthLoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val intent = getIntent()
-        if (intent != null && Intent.ACTION_VIEW.equals(intent.action)) {
-            val uri = intent.data
-            if (uri != null) {
-                val code = uri.getQueryParameter("code")
-                Log.d(DBG_TAG, "OAuthLoginActivity.onResume: ${code}")
-            }
-        }
-        else {
-            Log.d(DBG_TAG, "OAuthLoginActivity.onResume: intent is null")
-        }
+        Log.d(DBG_TAG, "OAuthLoginActivity.onResume: intent is ${intent?.action}")
     }
 
     /**
@@ -79,8 +69,9 @@ class OAuthLoginActivity : AppCompatActivity() {
             }
         }
         else {
-            Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent is null or not ACTION_VIEW")
+            Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent is ${intent?.action}")
         }
+        finish()
     }
 
     override fun onDestroy() {
