@@ -4,13 +4,12 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
+import com.tistory.umbum.github_issue_widget_app.view.ALL_ISSUES_NAME
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
-import com.tistory.umbum.github_issue_widget_app.helper.GithubService
+import com.tistory.umbum.github_issue_widget_app.api.GithubClient
 import com.tistory.umbum.github_issue_widget_app.model.IssueItem
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -56,13 +55,13 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
         }
 
         val token_string = "token ${access_token}"
-        Log.d(DBG_TAG, "[OK] ${token_string}")
+        Log.d(DBG_TAG, "IssueListFactory.onDataSetChanged: ${token_string}")
 
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        val service = retrofit.create(GithubService::class.java)
+        val service = retrofit.create(GithubClient.ApiService::class.java)
         val request: Call<List<IssueItem>>
 
         // sharedPreference에서 선택된 repo이름을 가져와야함. appWidgetId 사용해서.
@@ -124,7 +123,7 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
 
     override fun getCount(): Int {
         // 0..getCount()만큼 getViewAt()이 호출된다.
-        Log.d("getCount", "called | return ${issueItems.size}")
+        Log.d(DBG_TAG, "IssueListFactory.getCount: return ${issueItems.size}")
         return issueItems.size
     }
 

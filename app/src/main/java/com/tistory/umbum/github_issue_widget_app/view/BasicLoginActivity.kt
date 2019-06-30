@@ -1,11 +1,10 @@
-package com.tistory.umbum.github_issue_widget_app
+package com.tistory.umbum.github_issue_widget_app.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
 import android.support.v7.app.AppCompatActivity
 import android.app.LoaderManager.LoaderCallbacks
-import android.content.Context
 import android.content.CursorLoader
 import android.content.Intent
 import android.content.Loader
@@ -20,32 +19,35 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import com.tistory.umbum.github_issue_widget_app.helper.GithubService
+import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
+import com.tistory.umbum.github_issue_widget_app.DBG_TAG
+import com.tistory.umbum.github_issue_widget_app.R
+import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
+import com.tistory.umbum.github_issue_widget_app.api.GithubClient
 import com.tistory.umbum.github_issue_widget_app.helper.openCustomTab
-import com.tistory.umbum.github_issue_widget_app.model.AccessTokenResponse
 
 import java.util.ArrayList
 
 import kotlinx.android.synthetic.main.activity_login.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val DBG_TAG = "UMBUMDBG"
-
-class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
+/**
+ * 지금은 사용하지 않는다.
+ */
+class BasicLoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private var mAuthTask: UserLoginTask? = null
-    val client_id = "69ca379e3b147d012f8b"
-    val client_secret = "9e9551cf568fa36f765bda32262469deb328687d"
+//    private lateinit var mViewModel: BasicLoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+//        mViewModel = BasicLoginViewModel(this)
+
         // Set up the login form.
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
@@ -60,8 +62,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                 .appendPath("login")
                 .appendPath("oauth")
                 .appendPath("authorize")
-                .appendQueryParameter("client_id", "69ca379e3b147d012f8b")
-                .appendQueryParameter("redirect_uri", "github-issue-widget://login")
+                .appendQueryParameter("client_id", CLIENT_ID)
+                .appendQueryParameter("redirect_uri", REDIRECT_URI)
                 .appendQueryParameter("scope", "repo")
                 .build()
 
@@ -69,6 +71,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         openCustomTab(this, uri)
 //        email_sign_in_button.setOnClickListener { attemptLogin() }
     }
+
 
     override fun onResume() {
         // 로그인 완료되면 여기로 들어옴. 근데 다시 CCT가 실행되면서 무한루프에 빠짐.
@@ -86,49 +89,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        // github 측에서 github-issue-widget://login?code=...로 code를 보내주는데, 이 때 호출 된다.
-        // xml에 singleTask가 지정되어 있어 onCreate가 아니라 onNewIntent가 호출됨.
-        super.onNewIntent(intent)
-        Log.d(DBG_TAG, "onNewIntent")
-        if (intent != null && Intent.ACTION_VIEW.equals(intent.action)) {
-            val uri = intent.data
-            if (uri != null) {
-                val code = uri.getQueryParameter("code")
-                Log.d(DBG_TAG, "onNewIntent ${code}")
-
-                val retrofit = Retrofit.Builder()
-                        .baseUrl("https://github.com/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-
-                val ghService = retrofit.create(GithubService::class.java)
-                val request = ghService.requestAccessToken(client_id, client_secret, code)
-                request.enqueue(object : Callback<AccessTokenResponse> {
-                    override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
-                        Log.d(DBG_TAG, "retrofit onFailure: " + t.toString())
-                    }
-
-                    override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
-                        Log.d(DBG_TAG, response.body().toString())
-                        val access_token = response.body()?.access_token ?: return
-                        val sharedPreferences = getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        editor.putString("access_token", access_token)
-                        editor.apply()
-                        // 위젯 update해야겠지?
-                    }
-                })
-            }
-        }
-        else {
-            Log.d(DBG_TAG, "onNewIntent intent is null")
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
     }
 
 
@@ -278,7 +240,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
-            val ghService = retrofit.create(GithubService::class.java)
+            val ghService = retrofit.create(GithubClient.ApiService::class.java)
             val request = ghService.requestUserRepos("umbum")
             val result = request.execute().body()
             Log.d(DBG_TAG, result.toString())

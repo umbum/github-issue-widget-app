@@ -9,11 +9,10 @@ import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import android.util.Log
 import android.widget.RemoteViews
-import com.tistory.umbum.github_issue_widget_app.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
+import com.tistory.umbum.github_issue_widget_app.view.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.R
-import com.tistory.umbum.github_issue_widget_app.RepoSelectActivity
-import com.tistory.umbum.github_issue_widget_app.helper.openCustomTab
+import com.tistory.umbum.github_issue_widget_app.view.RepoSelectActivity
 
 
 const val ACTION_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE"
@@ -74,11 +73,11 @@ class IssueWidget : AppWidgetProvider() {
                                      appWidgetId: Int) {
             /** widget은 런쳐 어플리케이션에 속하는 거라서, RemoteViews를 사용해야 한다.
              타 어플리케이션의 뷰를 컨트롤할 수 없기 때문에, 이 프로세스가 view를 만들어서 표시하는게 아니고,
-             뷰를 이렇게 그려 달라는 설계도를 RemoteViews로 반환받아서 여기에 값들을 set하고, 이를
+             뷰를 이렇게 그려 달라는 설계도(RemoteViews)에 값들을 set하고, 이를
              appWidgetManager를 통해 런쳐 어플리케이션에 전달하면, 런쳐 어플리케이션이 이 뷰를 그리는 방식으로 동작한다.
              */
             val views = RemoteViews(context.packageName, R.layout.issue_widget)
-            Log.d(DBG_TAG, "onUpdate id ${appWidgetId}")
+            Log.d(DBG_TAG, "IssueWidget.onUpdate: id ${appWidgetId}")
 
             // repo select button
             val repoSelectIntent = Intent(context, RepoSelectActivity::class.java)
