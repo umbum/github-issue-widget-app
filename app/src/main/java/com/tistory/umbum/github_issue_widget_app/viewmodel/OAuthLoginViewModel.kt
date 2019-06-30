@@ -25,7 +25,6 @@ class OAuthLoginViewModel(app: Application): AndroidViewModel(app) {
                     accessTokenRepository.accessToken = accessTokenResponse.access_token
                     Toast.makeText(getApplication(), "Signed in!", Toast.LENGTH_LONG).show()
 
-                    // 위젯 업데이트!
                 }, {
                     Log.e(DBG_TAG, "OAuthLoginViewModel.resolveAccessToken: ${it.message}")
                     it.printStackTrace()

@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app
+package com.tistory.umbum.github_issue_widget_app.view
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import com.tistory.umbum.github_issue_widget_app.helper.GithubService
+import android.widget.Toast
+import com.tistory.umbum.github_issue_widget_app.*
+import com.tistory.umbum.github_issue_widget_app.api.GithubClient
 import com.tistory.umbum.github_issue_widget_app.model.RepoItem
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,6 +21,7 @@ const val ALL_ISSUES_ID = 0
 const val ALL_ISSUES_NAME = "[All assigned issues]"
 
 class RepoSelectActivity : AppCompatActivity() {
+
     companion object {
         val allissues = RepoItem(ALL_ISSUES_ID, ALL_ISSUES_NAME, ALL_ISSUES_NAME, false, -1)
     }
@@ -36,6 +39,7 @@ class RepoSelectActivity : AppCompatActivity() {
         val access_token = sharedPreferences.getString("access_token", null)
         if (access_token == null) {
             Log.d(DBG_TAG, "RepoSelectActivity: access_token is null")
+            Toast.makeText(this, "You need to sign in.", Toast.LENGTH_LONG).show()
             return
         }
 
@@ -45,7 +49,7 @@ class RepoSelectActivity : AppCompatActivity() {
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        val service = retrofit.create(GithubService::class.java)
+        val service = retrofit.create(GithubClient.ApiService::class.java)
         val request = service.requestAccountRepos(token_string)
         request.enqueue(object : Callback<List<RepoItem>> {
             override fun onFailure(call: Call<List<RepoItem>>, t: Throwable) {
@@ -66,7 +70,7 @@ class RepoSelectActivity : AppCompatActivity() {
 //                        Log.d(DBG_TAG, "${repo.id} ${repo.name} ${repo.private} ${repo.open_issues_count}")
 //                    }
                 } else {
-                    Log.d(DBG_TAG, "requestAccountRepos : reponse.body() == null. something wrong")
+                    Log.d(DBG_TAG, "requestAccountRepos: reponse.body() == null. something wrong")
                 }
             }
         })

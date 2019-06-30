@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app
+package com.tistory.umbum.github_issue_widget_app.view
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.tistory.umbum.github_issue_widget_app.DBG_TAG
+import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.model.RepoItem
 import com.tistory.umbum.github_issue_widget_app.widget.IssueWidget
 import kotlinx.android.synthetic.main.repo_item.view.*
