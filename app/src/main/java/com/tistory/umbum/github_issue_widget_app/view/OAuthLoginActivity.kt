@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
+import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
 import com.tistory.umbum.github_issue_widget_app.helper.openCustomTab
 import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModel
 
@@ -34,7 +35,7 @@ class OAuthLoginActivity : AppCompatActivity() {
                 .appendPath("oauth")
                 .appendPath("authorize")
                 .appendQueryParameter("client_id", CLIENT_ID)
-                .appendQueryParameter("redirect_uri", "github-issue-widget://login")
+                .appendQueryParameter("redirect_uri", REDIRECT_URI)
                 .appendQueryParameter("scope", "repo")
                 .build()
 
