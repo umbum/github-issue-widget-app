@@ -1,4 +1,6 @@
 # github-issue-widget-app
+[![Build Status](https://travis-ci.org/umbum/github-issue-widget-app.svg?branch=develop)](https://travis-ci.org/umbum/github-issue-widget-app)  
+
 Android GitHub issue widget  
 
 

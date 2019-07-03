@@ -9,8 +9,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.build-properties'
 
 buildProperties {
+    notThere {
+        using rootProject.file('debug_gradle.properties')
+    }
     secrets {
-        file rootProject.file('gradle.properties')
+        using rootProject.file('gradle.properties')
     }
 }
 
@@ -23,17 +26,17 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        buildConfigString "CLIENT_SECRET", buildProperties.secrets['github_client_secret']
-        buildConfigString "CLIENT_ID", buildProperties.secrets['github_client_id']
-        buildConfigString "REDIRECT_URI", buildProperties.secrets['redirect_uri']
+        buildConfigString "CLIENT_SECRET", (buildProperties.secrets['github_client_secret']  | buildProperties.notThere['github_client_secret']).string
+        buildConfigString "CLIENT_ID", (buildProperties.secrets['github_client_id']  | buildProperties.notThere['github_client_id']).string
+        buildConfigString "REDIRECT_URI", (buildProperties.secrets['redirect_uri']  | buildProperties.notThere['redirect_uri']).string
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         release {
             storeFile file("/Users/umbum/Untitled")
-            storePassword buildProperties.secrets['android_store_password'].string
-            keyAlias buildProperties.secrets['android_key_alias'].string
-            keyPassword buildProperties.secrets['android_store_password'].string
+            storePassword((buildProperties.secrets['android_store_password']  | buildProperties.notThere['android_store_password']).string)
+            keyAlias((buildProperties.secrets['android_key_alias']  | buildProperties.notThere['android_key_alias']).string)
+            keyPassword((buildProperties.secrets['android_store_password']  | buildProperties.notThere['android_store_password']).string)
         }
     }
     buildTypes {
