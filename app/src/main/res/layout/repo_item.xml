@@ -1,7 +1,18 @@
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tistory.umbum.github_issue_widget_app.viewmodel.RepoItemViewModel" />
+    </data>
+
+    <Button
         tools:text="tooltext"
         android:id="@+id/repo_full_name"
+        android:text="@{vm.fullName}"
+        android:onClick="@{() -> vm.onItemClick()}"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textColor="@android:color/black"
@@ -12,4 +23,5 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:paddingRight="15dp"
-        android:paddingLeft="15dp"/>
+        android:paddingLeft="15dp" />
+</layout>
