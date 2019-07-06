@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.helper
+package com.tistory.umbum.github_issue_widget_app.util
 import android.content.Context
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
