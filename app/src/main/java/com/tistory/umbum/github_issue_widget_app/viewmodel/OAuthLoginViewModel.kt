@@ -2,6 +2,8 @@ package com.tistory.umbum.github_issue_widget_app.viewmodel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import android.util.Log
 import android.widget.Toast
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
@@ -30,5 +32,12 @@ class OAuthLoginViewModel(app: Application): AndroidViewModel(app) {
                     it.printStackTrace()
                     Toast.makeText(getApplication(), "Login Error", Toast.LENGTH_LONG).show()
                 })
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class OAuthLoginViewModelFactory(val app: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return OAuthLoginViewModel(app) as T
     }
 }

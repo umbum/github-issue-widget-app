@@ -1,15 +1,17 @@
 package com.tistory.umbum.github_issue_widget_app.view
 
-import android.support.v7.app.AppCompatActivity
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
-import com.tistory.umbum.github_issue_widget_app.helper.openCustomTab
+import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
 import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModel
+import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModelFactory
 
 
 /**
@@ -18,15 +20,14 @@ import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModel
  * 그냥 OAuthLoginActivity onCreate하자 마자 CCT로 OAuth 로그인하도록 넘어가게 구성했다.
  */
 class OAuthLoginActivity : AppCompatActivity() {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private lateinit var mViewModel: OAuthLoginViewModel
+    private val viewModel : OAuthLoginViewModel by lazy {
+        ViewModelProviders
+            .of(this, OAuthLoginViewModelFactory(this.application))
+            .get(OAuthLoginViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mViewModel = OAuthLoginViewModel(this.application)
 
         val uri = Uri.Builder()
                 .scheme("https")
@@ -64,7 +65,7 @@ class OAuthLoginActivity : AppCompatActivity() {
 
         if (intent != null && Intent.ACTION_VIEW.equals(intent.action)) {
             intent.data?.getQueryParameter("code")?. let {
-                mViewModel.resolveAccessToken(it)
+                viewModel.resolveAccessToken(it)
             } ?: run {
                 Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent.data or getQueryParameter('code') is null")
             }
