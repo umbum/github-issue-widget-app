@@ -16,7 +16,7 @@ class OAuthLoginViewModel(app: Application): AndroidViewModel(app) {
     private val accessTokenRepository = AccessTokenRepository(getApplication())
 
     fun resolveAccessToken(code: String) {
-        GithubClient.githubApi.requestAccessToken(CLIENT_ID, CLIENT_SECRET, code)
+        GithubClient.client.requestAccessToken(CLIENT_ID, CLIENT_SECRET, code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

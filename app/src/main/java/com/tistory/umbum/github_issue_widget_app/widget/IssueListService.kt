@@ -6,10 +6,10 @@ import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.tistory.umbum.github_issue_widget_app.view.ALL_ISSUES_NAME
+import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
-import com.tistory.umbum.github_issue_widget_app.api.GithubClient
+import com.tistory.umbum.github_issue_widget_app.api.GithubApiClient
 import com.tistory.umbum.github_issue_widget_app.model.IssueItem
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -61,7 +61,7 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        val service = retrofit.create(GithubClient.ApiService::class.java)
+        val service = retrofit.create(GithubApiClient.Service::class.java)
         val request: Call<List<IssueItem>>
 
         // sharedPreference에서 선택된 repo이름을 가져와야함. appWidgetId 사용해서.
@@ -83,7 +83,7 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
         // 비동기 함수를 쓰면, 이 함수가 바로 종료되어 버리기 때문에 getCount 값이 이전 크기를 리턴해버린다.
         val issues = request.execute().body()
         if (issues != null) {
-            Log.d(DBG_TAG, "[receive] issues count ${issues .size}")
+            Log.d(DBG_TAG, "[receive] the number of issues = ${issues.size}")
             issueItems = issues
         }
         else {
