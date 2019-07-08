@@ -1,12 +1,13 @@
 package com.tistory.umbum.github_issue_widget_app.viewmodel
 
+import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
 import com.tistory.umbum.github_issue_widget_app.model.RepoItem
 
 
-class RepoItemViewModel(private val repoItem: RepoItem, private val listener: RepoItemViewModelListener) {
+class RepoItemViewModel(private val repoItem: RepoItem, private val listener: RepoItemViewModelListener): ViewModel() {
     val id = ObservableInt(repoItem.id)
     val name = ObservableField<String>(repoItem.name)
     val fullName = ObservableField<String>(repoItem.full_name)
