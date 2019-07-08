@@ -1,11 +1,13 @@
 package com.tistory.umbum.github_issue_widget_app.view
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
@@ -20,10 +22,10 @@ import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModelFa
  * 그냥 OAuthLoginActivity onCreate하자 마자 CCT로 OAuth 로그인하도록 넘어가게 구성했다.
  */
 class OAuthLoginActivity : AppCompatActivity() {
-    private val viewModel : OAuthLoginViewModel by lazy {
+    private val viewModel: OAuthLoginViewModel by lazy {
         ViewModelProviders
-            .of(this, OAuthLoginViewModelFactory(this.application))
-            .get(OAuthLoginViewModel::class.java)
+                .of(this, OAuthLoginViewModelFactory(this.application))
+                .get(OAuthLoginViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,18 +64,23 @@ class OAuthLoginActivity : AppCompatActivity() {
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
         if (intent != null && Intent.ACTION_VIEW.equals(intent.action)) {
-            intent.data?.getQueryParameter("code")?. let {
-                viewModel.resolveAccessToken(it)
-            } ?: run {
+            val code = intent.data?.getQueryParameter("code")
+            if (code != null) {
+                viewModel.initAccessTokenLiveData(code)    // TODO("API28부터는 savedStateHandle을 통해 넘기면 이게 필요가 없다.")
+                viewModel.accessTokenLiveData.observe(this, Observer {
+                    if (it != null)
+                        Toast.makeText(applicationContext, "Signed in!", Toast.LENGTH_LONG).show()
+                    else
+                        Toast.makeText(applicationContext, "Login Error", Toast.LENGTH_LONG).show()
+                    finish()
+                })
+            } else {
                 Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent.data or getQueryParameter('code') is null")
             }
-        }
-        else {
+        } else {
             Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent is ${intent?.action}")
         }
-        finish()
     }
 
     override fun onDestroy() {

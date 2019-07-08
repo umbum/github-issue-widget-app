@@ -3,6 +3,7 @@ package com.tistory.umbum.github_issue_widget_app.api
 import com.tistory.umbum.github_issue_widget_app.model.AccessTokenResponse
 import io.reactivex.Single
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,8 +18,8 @@ const val GITHUB_URL = "https://github.com/"
 object GithubClient {
     val client = Retrofit.Builder()
             .baseUrl(GITHUB_URL)
-            .client(OkHttpClient())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .client(OkHttpClient())
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Service::class.java)
@@ -31,7 +32,7 @@ object GithubClient {
                                @Field("client_secret") client_secret: String,
 //                           @Field("state") state: String,
 //                           @Field("redirect_uri") redirect_uri: String,
-                               @Field("code") code: String): Single<AccessTokenResponse>
+                               @Field("code") code: String): Call<AccessTokenResponse>
     }
 
 
