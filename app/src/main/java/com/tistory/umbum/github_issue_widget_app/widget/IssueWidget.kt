@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.view.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.R
+import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
 import com.tistory.umbum.github_issue_widget_app.view.RepoSelectActivity
 
 
@@ -52,14 +53,7 @@ class IssueWidget : AppWidgetProvider() {
             }
             ACTION_CLICK -> {
                 val url = intent.extras?.getString("url")
-                if (url != null) {
-                    val builder = CustomTabsIntent.Builder()
-                    val customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(context, Uri.parse(url))
-                }
-                else {
-                    Log.d(DBG_TAG, "[onReceive] url is null")
-                }
+                url?.let { openCustomTab(context, url) } ?: Log.d(DBG_TAG, "[onReceive] url is null")
             }
             else -> {
                 Log.d(DBG_TAG, "[onReceive] action = ${intent.action}")

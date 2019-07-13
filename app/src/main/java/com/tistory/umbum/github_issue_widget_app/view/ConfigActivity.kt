@@ -1,18 +1,23 @@
 package com.tistory.umbum.github_issue_widget_app.view
 
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
 import com.tistory.umbum.github_issue_widget_app.R
-import com.tistory.umbum.github_issue_widget_app.databinding.ActivityConfigBinding
-import com.tistory.umbum.github_issue_widget_app.viewmodel.ConfigViewModel
 
 class ConfigActivity : AppCompatActivity() {
-    val configViewModel = ConfigViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val dataBinding: ActivityConfigBinding = DataBindingUtil.setContentView(this, R.layout.activity_config);
-        dataBinding.viewmodel = configViewModel;
+
+        setContentView(R.layout.activity_config)
+        setResult(Activity.RESULT_CANCELED)
+        val login_btn = findViewById<Button>(R.id.login_btn)
+        login_btn.setOnClickListener {
+            val intent = Intent(this, OAuthLoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

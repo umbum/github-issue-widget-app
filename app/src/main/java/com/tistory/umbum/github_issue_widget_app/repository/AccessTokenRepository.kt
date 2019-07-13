@@ -1,7 +1,15 @@
 package com.tistory.umbum.github_issue_widget_app.repository
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.content.Context
-import java.lang.NullPointerException
+import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
+import com.tistory.umbum.github_issue_widget_app.CLIENT_SECRET
+import com.tistory.umbum.github_issue_widget_app.api.GithubClient
+import com.tistory.umbum.github_issue_widget_app.model.AccessTokenResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AccessTokenRepository(private val context: Context) {
     var accessToken: String?
@@ -17,4 +25,20 @@ class AccessTokenRepository(private val context: Context) {
                     .putString("access_token", accessToken)
                     .apply()
         }
+
+    fun resolveAccessToken(code: String): LiveData<String?> {
+        val accessTokenLiveData = MutableLiveData<String?>()
+        GithubClient.client.requestAccessToken(CLIENT_ID, CLIENT_SECRET, code).enqueue(object : Callback<AccessTokenResponse> {
+            override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
+                accessTokenLiveData.value = null
+                accessToken = null
+            }
+
+            override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
+                accessTokenLiveData.value = response.body()?.access_token
+                accessToken = response.body()?.access_token
+            }
+        })
+        return accessTokenLiveData
+    }
 }
