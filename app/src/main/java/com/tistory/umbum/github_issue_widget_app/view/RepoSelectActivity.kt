@@ -37,15 +37,7 @@ class RepoSelectActivity : AppCompatActivity() {
         binding.repoListView.layoutManager = LinearLayoutManager(this)
         binding.repoListView.itemAnimator = DefaultItemAnimator()
         binding.repoListView.adapter = RepoSelectAdapter(appWidgetId)
-        viewModel.requestRepos()
     }
 
-    /**
-     * 뒤로가기 키 누르면 호출됨.
-     * RepoSelectActivity가 삭제되면서 RepoSelectViewModel도 삭제된다.
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
 

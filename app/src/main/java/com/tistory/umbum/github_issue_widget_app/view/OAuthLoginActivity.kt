@@ -67,7 +67,7 @@ class OAuthLoginActivity : AppCompatActivity() {
         if (intent != null && Intent.ACTION_VIEW.equals(intent.action)) {
             val code = intent.data?.getQueryParameter("code")
             if (code != null) {
-                viewModel.initAccessTokenLiveData(code)    // TODO("API28부터는 savedStateHandle을 통해 넘기면 이게 필요가 없다.")
+                viewModel.initAccessTokenLiveData(code)    // API28부터는 savedStateHandle을 통해 넘기면 이게 필요가 없다.
                 viewModel.accessTokenLiveData.observe(this, Observer {
                     if (it != null)
                         Toast.makeText(applicationContext, "Signed in!", Toast.LENGTH_LONG).show()

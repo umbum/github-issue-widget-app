@@ -21,6 +21,10 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
     private val accessTokenRepository = AccessTokenRepository(getApplication())
     val repoItems = ObservableArrayList<RepoItem>()
 
+    init {
+        requestRepos()
+    }
+
     companion object {
         val allIssues = RepoItem(ALL_ISSUES_ID, ALL_ISSUES_NAME, ALL_ISSUES_NAME, false, -1)
     }
@@ -28,12 +32,12 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
     fun requestRepos() {
         val access_token = accessTokenRepository.accessToken
         if (access_token == null) {
-            Log.d(DBG_TAG, "RepoSelectActivity: access_token is null")
+            Log.d(DBG_TAG, "RepoSelectViewModel.requestRepos: access_token is null")
             Toast.makeText(getApplication(), "You need to sign in.", Toast.LENGTH_LONG).show()
             return
         }
         val token_string = "token ${access_token}"
-        Log.d(DBG_TAG, token_string)
+        Log.d(DBG_TAG, "RepoSelectViewModel.requestRepos: ${token_string}")
 
         GithubApiClient.client.requestAccountRepos(token_string).enqueue(object : Callback<List<RepoItem>> {
             override fun onFailure(call: Call<List<RepoItem>>, t: Throwable) {
@@ -50,7 +54,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
                     //     Log.d(DBG_TAG, "${repo.id} ${repo.name} ${repo.private} ${repo.open_issues_count}")
                     // }
                 } else {
-                    Log.e(DBG_TAG, "requestAccountRepos: response.body() is null.")
+                    Log.e(DBG_TAG, "RepoSelectViewModel.requestRepos: response.body() is null.")
                     Toast.makeText(getApplication(), "response.body() is null.", Toast.LENGTH_LONG).show()
                 }
             }
