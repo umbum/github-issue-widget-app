@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RepoSelectDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowFixedWidthMinor">100%</item>
+        <item name="windowFixedWidthMajor">100%</item>
+        <item name="windowFixedHeightMajor">50%</item>
+        <item name="windowFixedHeightMinor">50%</item>
+    </style>
+
 </resources>

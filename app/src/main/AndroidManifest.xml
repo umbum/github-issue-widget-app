@@ -45,13 +45,16 @@
         </activity>
         <activity
                 android:name=".view.ConfigActivity"
-                android:label="@string/title_activity_config">
+                android:label="@string/title_activity_config"
+                android:theme="@style/Theme.AppCompat.DayNight">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".view.RepoSelectActivity">
+        <activity
+            android:name=".view.RepoSelectActivity"
+            android:theme="@style/RepoSelectDialog">
         </activity>
     </application>
 
