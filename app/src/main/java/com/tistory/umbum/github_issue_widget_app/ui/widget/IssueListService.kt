@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.widget
+package com.tistory.umbum.github_issue_widget_app.ui.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -9,8 +9,8 @@ import android.widget.RemoteViewsService
 import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
-import com.tistory.umbum.github_issue_widget_app.api.GithubApiClient
-import com.tistory.umbum.github_issue_widget_app.model.IssueItem
+import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
+import com.tistory.umbum.github_issue_widget_app.data.model.IssueItem
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

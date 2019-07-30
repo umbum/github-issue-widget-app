@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.widget
+package com.tistory.umbum.github_issue_widget_app.ui.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -6,14 +6,13 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
 import android.util.Log
 import android.widget.RemoteViews
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
-import com.tistory.umbum.github_issue_widget_app.view.ConfigActivity
+import com.tistory.umbum.github_issue_widget_app.ui.config.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
-import com.tistory.umbum.github_issue_widget_app.view.RepoSelectActivity
+import com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectActivity
 
 
 const val ACTION_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE"

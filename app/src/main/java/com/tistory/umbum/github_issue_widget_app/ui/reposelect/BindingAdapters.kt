@@ -1,9 +1,9 @@
-package com.tistory.umbum.github_issue_widget_app.util
+package com.tistory.umbum.github_issue_widget_app.ui.reposelect
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
-import com.tistory.umbum.github_issue_widget_app.model.RepoItem
-import com.tistory.umbum.github_issue_widget_app.view.RepoSelectAdapter
+import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
+import com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectAdapter
 
 /**
  * 호출시점은, RepoSelectActivity의 onCreate의 종료 직후 초기화를 위해 한 번 호출되고

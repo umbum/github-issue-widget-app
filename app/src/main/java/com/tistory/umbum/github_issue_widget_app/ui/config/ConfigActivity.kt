@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.view
+package com.tistory.umbum.github_issue_widget_app.ui.config
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import com.tistory.umbum.github_issue_widget_app.R
+import com.tistory.umbum.github_issue_widget_app.ui.login.OAuthLoginActivity
 
 class ConfigActivity : AppCompatActivity() {
 

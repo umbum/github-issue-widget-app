@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.view
+package com.tistory.umbum.github_issue_widget_app.ui.reposelect
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -13,11 +13,8 @@ import android.view.ViewGroup
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.databinding.RepoItemBinding
-import com.tistory.umbum.github_issue_widget_app.model.RepoItem
-import com.tistory.umbum.github_issue_widget_app.viewmodel.RepoItemViewModel
-import com.tistory.umbum.github_issue_widget_app.widget.IssueWidget
-import kotlinx.android.synthetic.main.repo_item.view.*
-
+import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
+import com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget
 
 
 class RepoSelectAdapter(private val appWidgetId: Int)

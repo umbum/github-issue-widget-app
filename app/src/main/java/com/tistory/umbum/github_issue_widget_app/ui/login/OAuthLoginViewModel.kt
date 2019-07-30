@@ -1,11 +1,11 @@
-package com.tistory.umbum.github_issue_widget_app.viewmodel
+package com.tistory.umbum.github_issue_widget_app.ui.login
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.tistory.umbum.github_issue_widget_app.repository.AccessTokenRepository
+import com.tistory.umbum.github_issue_widget_app.data.local.preferences.AccessTokenRepository
 
 class OAuthLoginViewModel(app: Application): AndroidViewModel(app) {
     private val accessTokenRepository = AccessTokenRepository(getApplication())

@@ -1,12 +1,12 @@
-package com.tistory.umbum.github_issue_widget_app.repository
+package com.tistory.umbum.github_issue_widget_app.data.local.preferences
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.CLIENT_SECRET
-import com.tistory.umbum.github_issue_widget_app.api.GithubClient
-import com.tistory.umbum.github_issue_widget_app.model.AccessTokenResponse
+import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubClient
+import com.tistory.umbum.github_issue_widget_app.data.model.AccessTokenResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

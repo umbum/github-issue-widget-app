@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.view
+package com.tistory.umbum.github_issue_widget_app.ui.reposelect
 
 import android.appwidget.AppWidgetManager
 import android.arch.lifecycle.ViewModelProviders
@@ -11,8 +11,6 @@ import android.util.Log
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.databinding.ActivityRepoSelectBinding
-import com.tistory.umbum.github_issue_widget_app.viewmodel.RepoSelectViewModel
-import com.tistory.umbum.github_issue_widget_app.viewmodel.RepoSelectViewModelFactory
 
 class RepoSelectActivity : AppCompatActivity() {
 

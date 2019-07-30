@@ -1,8 +1,8 @@
-package com.tistory.umbum.github_issue_widget_app.api
+package com.tistory.umbum.github_issue_widget_app.data.remote.api
 
 import com.google.gson.JsonArray
-import com.tistory.umbum.github_issue_widget_app.model.IssueItem
-import com.tistory.umbum.github_issue_widget_app.model.RepoItem
+import com.tistory.umbum.github_issue_widget_app.data.model.IssueItem
+import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

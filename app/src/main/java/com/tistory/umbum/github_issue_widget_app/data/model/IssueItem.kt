@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.model
+package com.tistory.umbum.github_issue_widget_app.data.model
 
 data class IssueItem(val id: Int,
                      val title: String,

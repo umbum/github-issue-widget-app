@@ -1,3 +1,5 @@
+package com.tistory.umbum.github_issue_widget_app.ui.login
+
 //package com.tistory.umbum.github_issue_widget_app.view
 //
 //import android.animation.Animator
@@ -23,8 +25,8 @@
 //import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 //import com.tistory.umbum.github_issue_widget_app.R
 //import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
-//import com.tistory.umbum.github_issue_widget_app.api.GithubApiClient
-//import com.tistory.umbum.github_issue_widget_app.api.GithubClient
+//import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
+//import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubClient
 //import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
 //
 //import java.util.ArrayList

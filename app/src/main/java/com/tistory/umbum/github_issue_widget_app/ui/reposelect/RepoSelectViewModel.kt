@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.viewmodel
+package com.tistory.umbum.github_issue_widget_app.ui.reposelect
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
@@ -10,9 +10,9 @@ import android.widget.Toast
 import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_ID
 import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
-import com.tistory.umbum.github_issue_widget_app.api.GithubApiClient
-import com.tistory.umbum.github_issue_widget_app.model.RepoItem
-import com.tistory.umbum.github_issue_widget_app.repository.AccessTokenRepository
+import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
+import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
+import com.tistory.umbum.github_issue_widget_app.data.local.preferences.AccessTokenRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

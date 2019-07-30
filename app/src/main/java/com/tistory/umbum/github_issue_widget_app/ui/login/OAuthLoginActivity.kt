@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.view
+package com.tistory.umbum.github_issue_widget_app.ui.login
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -12,8 +12,6 @@ import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
 import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
-import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModel
-import com.tistory.umbum.github_issue_widget_app.viewmodel.OAuthLoginViewModelFactory
 
 
 /**

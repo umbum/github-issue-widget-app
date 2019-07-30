@@ -6,13 +6,13 @@
     <data>
         <variable
             name="vm"
-            type="com.tistory.umbum.github_issue_widget_app.viewmodel.RepoSelectViewModel" />
+            type="com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.tistory.umbum.github_issue_widget_app.view.RepoSelectActivity">
+        tools:context="com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectActivity">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/repo_list_view"

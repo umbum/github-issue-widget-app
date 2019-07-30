@@ -1,10 +1,10 @@
-package com.tistory.umbum.github_issue_widget_app.viewmodel
+package com.tistory.umbum.github_issue_widget_app.ui.reposelect
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
-import com.tistory.umbum.github_issue_widget_app.model.RepoItem
+import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
 
 
 class RepoItemViewModel(private val repoItem: RepoItem, private val listener: RepoItemViewModelListener): ViewModel() {

@@ -1,11 +1,8 @@
-package com.tistory.umbum.github_issue_widget_app.api
+package com.tistory.umbum.github_issue_widget_app.data.remote.api
 
-import com.tistory.umbum.github_issue_widget_app.model.AccessTokenResponse
-import io.reactivex.Single
-import okhttp3.OkHttpClient
+import com.tistory.umbum.github_issue_widget_app.data.model.AccessTokenResponse
 import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
