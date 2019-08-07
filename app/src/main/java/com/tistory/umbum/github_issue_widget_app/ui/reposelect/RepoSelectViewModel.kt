@@ -18,6 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
+    private val TAG = this::class.java.simpleName
     private val accessTokenRepository = AccessTokenRepository(getApplication())
     val repoItems = ObservableArrayList<RepoItem>()
 
@@ -32,16 +33,17 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
     fun requestRepos() {
         val access_token = accessTokenRepository.accessToken
         if (access_token == null) {
-            Log.d(DBG_TAG, "RepoSelectViewModel.requestRepos: access_token is null")
+            Log.d(TAG, "RepoSelectViewModel.requestRepos: access_token is null")
             Toast.makeText(getApplication(), "You need to sign in.", Toast.LENGTH_LONG).show()
             return
         }
         val token_string = "token ${access_token}"
-        Log.d(DBG_TAG, "RepoSelectViewModel.requestRepos: ${token_string}")
+        Log.d(TAG, "RepoSelectViewModel.requestRepos: ${token_string}")
 
         GithubApiClient.client.requestAccountRepos(token_string).enqueue(object : Callback<List<RepoItem>> {
             override fun onFailure(call: Call<List<RepoItem>>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Log.e(TAG, "onFailure: repoistory request fail", t)
+                Toast.makeText(getApplication(), "repository 정보를 받아오는데 실패했습니다.", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<List<RepoItem>>, response: Response<List<RepoItem>>) {
@@ -50,12 +52,9 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
                     repos.add(0, allIssues)
                     repoItems.clear()
                     repoItems.addAll(repos)
-                    // for (repo in repos.asIterable()) {
-                    //     Log.d(DBG_TAG, "${repo.id} ${repo.name} ${repo.private} ${repo.open_issues_count}")
-                    // }
                 } else {
-                    Log.e(DBG_TAG, "RepoSelectViewModel.requestRepos: response.body() is null.")
-                    Toast.makeText(getApplication(), "response.body() is null.", Toast.LENGTH_LONG).show()
+                    Log.e(TAG, "onResponse: response.body() is null.")
+                    Toast.makeText(getApplication(), "repoistory 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show()
                 }
             }
         })
