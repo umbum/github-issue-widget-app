@@ -12,6 +12,6 @@ import com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectAdapter
 @BindingAdapter("repo_items")
 fun setRepoItems(view: RecyclerView, items: List<RepoItem>) {
     val adapter = view.adapter as? RepoSelectAdapter ?: return
-    adapter.updateItems(items)
+    adapter.items = items
     adapter.notifyDataSetChanged()
 }

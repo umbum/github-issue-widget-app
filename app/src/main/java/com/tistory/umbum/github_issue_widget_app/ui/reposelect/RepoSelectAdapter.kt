@@ -20,14 +20,9 @@ import com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget
 class RepoSelectAdapter(private val appWidgetId: Int)
     : RecyclerView.Adapter<RepoSelectAdapter.RepoViewHolder>() {
 
-    private val items = mutableListOf<RepoItem>()
+    var items = emptyList<RepoItem>()
 
     override fun getItemCount(): Int = items.size
-
-    fun updateItems(_items: List<RepoItem>) {
-        items.clear()
-        items.addAll(_items)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.repo_item, parent, false)
