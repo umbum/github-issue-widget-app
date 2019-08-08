@@ -54,8 +54,8 @@ class RepoSelectAdapter(private val appWidgetId: Int)
             val updateIntent = Intent(context, IssueWidget::class.java)
             updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
             updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            // widget의 textView에 설정할 값은 extra로 전달해도 되긴 되는데, 그냥 sharedPreference에서 읽어오면 된다.
-            updateIntent.putExtra("repo_select_btn_text", fullName)
+            // widget의 textView에 설정할 값은 extra로 전달해도 되지만, sharedPreference에서 읽어온다.
+            // prefs에 저장된 값이 있는 상태에서 로그아웃만 했다면, 로그인 했을 때 레포 설정해둔게 유지되면 좋으니까.
             activity.sendBroadcast(updateIntent)
             activity.finish()
         }

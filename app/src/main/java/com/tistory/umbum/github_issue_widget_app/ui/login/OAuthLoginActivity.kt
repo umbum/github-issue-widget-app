@@ -1,5 +1,6 @@
 package com.tistory.umbum.github_issue_widget_app.ui.login
 
+import android.appwidget.AppWidgetManager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -11,7 +12,10 @@ import android.widget.Toast
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
+import com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget
 import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
+import android.content.ComponentName
+import android.content.Context
 
 
 /**
@@ -67,10 +71,13 @@ class OAuthLoginActivity : AppCompatActivity() {
             if (code != null) {
                 viewModel.initAccessTokenLiveData(code)    // API28부터는 savedStateHandle을 통해 넘기면 이게 필요가 없다.
                 viewModel.accessTokenLiveData.observe(this, Observer {
-                    if (it != null)
+                    if (it != null) {
                         Toast.makeText(applicationContext, "Signed in!", Toast.LENGTH_LONG).show()
-                    else
+                        updateWidgets(this@OAuthLoginActivity, getAllWidgetIds())
+                    }
+                    else {
                         Toast.makeText(applicationContext, "Login Error", Toast.LENGTH_LONG).show()
+                    }
                     finish()
                 })
             } else {
@@ -79,6 +86,25 @@ class OAuthLoginActivity : AppCompatActivity() {
         } else {
             Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent is ${intent?.action}")
         }
+    }
+
+    fun getAllWidgetIds(): IntArray {
+        val componentName = ComponentName(application, IssueWidget::class.java)
+        return AppWidgetManager.getInstance(application).getAppWidgetIds(componentName)
+    }
+
+    fun updateWidget(context: Context, widgetId: Int) {
+        val updateIntent = Intent(baseContext, IssueWidget::class.java)
+        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+        updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+        context.sendBroadcast(updateIntent)
+    }
+
+    fun updateWidgets(context: Context, widgetIds: IntArray) {
+        val updateIntent = Intent(baseContext, IssueWidget::class.java)
+        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+        updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
+        context.sendBroadcast(updateIntent)
     }
 
     override fun onDestroy() {
