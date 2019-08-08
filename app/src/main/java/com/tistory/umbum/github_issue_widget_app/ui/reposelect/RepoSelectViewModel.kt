@@ -43,7 +43,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
         GithubApiClient.client.requestAccountRepos(token_string).enqueue(object : Callback<List<RepoItem>> {
             override fun onFailure(call: Call<List<RepoItem>>, t: Throwable) {
                 Log.e(TAG, "onFailure: repoistory request fail", t)
-                Toast.makeText(getApplication(), "repository 정보를 받아오는데 실패했습니다.", Toast.LENGTH_LONG).show()
+                Toast.makeText(getApplication(), "Request for repository information failed.", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<List<RepoItem>>, response: Response<List<RepoItem>>) {
@@ -54,7 +54,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
                     repoItems.addAll(repos)
                 } else {
                     Log.e(TAG, "onResponse: response.body() is null.")
-                    Toast.makeText(getApplication(), "repoistory 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(getApplication(), "Failed to get repository information.", Toast.LENGTH_LONG).show()
                 }
             }
         })
