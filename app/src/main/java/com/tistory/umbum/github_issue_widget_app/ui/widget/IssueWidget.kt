@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.RemoteViews
+import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_TEXT
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.ui.config.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.R
@@ -71,6 +72,13 @@ class IssueWidget : AppWidgetProvider() {
              */
             val views = RemoteViews(context.packageName, R.layout.issue_widget)
             Log.d(DBG_TAG, "IssueWidget.onUpdate: id ${appWidgetId}")
+            val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
+            var repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", null)
+            if (repo_full_name == null) {
+                val editor = sharedPreferences.edit()
+                editor.putString("selected_repo_for_id${appWidgetId}", ALL_ISSUES_TEXT)
+                editor.apply()
+            }
 
             // repo select button
             val repoSelectIntent = Intent(context, RepoSelectActivity::class.java)
@@ -128,7 +136,7 @@ class IssueWidget : AppWidgetProvider() {
 
         internal fun setRepoSelectBtnText(context: Context, appWidgetId: Int, views: RemoteViews) {
             val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-            val repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", null)
+            val repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", "[None]")
             views.setTextViewText(R.id.repo_select_btn, repo_full_name)
             Log.d(DBG_TAG, "[set repo btn text] ${repo_full_name}")
         }

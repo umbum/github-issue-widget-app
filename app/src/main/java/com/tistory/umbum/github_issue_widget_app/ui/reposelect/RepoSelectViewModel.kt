@@ -8,8 +8,7 @@ import android.databinding.ObservableArrayList
 import android.util.Log
 import android.widget.Toast
 import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_ID
-import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
-import com.tistory.umbum.github_issue_widget_app.DBG_TAG
+import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_TEXT
 import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
 import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
 import com.tistory.umbum.github_issue_widget_app.data.local.preferences.AccessTokenRepository
@@ -27,7 +26,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     companion object {
-        val allIssues = RepoItem(ALL_ISSUES_ID, ALL_ISSUES_NAME, ALL_ISSUES_NAME, false, -1)
+        val allIssues = RepoItem(ALL_ISSUES_ID, ALL_ISSUES_TEXT, ALL_ISSUES_TEXT, false, -1)
     }
 
     fun requestRepos() {
@@ -40,7 +39,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
         val token_string = "token ${access_token}"
         Log.d(TAG, "RepoSelectViewModel.requestRepos: ${token_string}")
 
-        GithubApiClient.client.requestAccountRepos(token_string).enqueue(object : Callback<List<RepoItem>> {
+        GithubApiClient.client.getMyRepos(token_string).enqueue(object : Callback<List<RepoItem>> {
             override fun onFailure(call: Call<List<RepoItem>>, t: Throwable) {
                 Log.e(TAG, "onFailure: repoistory request fail", t)
                 Toast.makeText(getApplication(), "Request for repository information failed.", Toast.LENGTH_LONG).show()
@@ -54,7 +53,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
                     repoItems.addAll(repos)
                 } else {
                     Log.e(TAG, "onResponse: response.body() is null.")
-                    Toast.makeText(getApplication(), "Failed to get repository information.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(getApplication(), "Failed to get repository information.π", Toast.LENGTH_LONG).show()
                 }
             }
         })

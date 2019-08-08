@@ -6,7 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_NAME
+import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_TEXT
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
@@ -64,18 +64,19 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
         val service = retrofit.create(GithubApiClient.Service::class.java)
         val request: Call<List<IssueItem>>
 
-        // sharedPreference에서 선택된 repo이름을 가져와야함. appWidgetId 사용해서.
-        val repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", ALL_ISSUES_NAME)
-        if (repo_full_name != ALL_ISSUES_NAME) {
+        // sharedPreference에서 해당 위젯에서 선택된 repo이름을 가져온다.
+        var repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", ALL_ISSUES_TEXT);
+
+        if (repo_full_name != ALL_ISSUES_TEXT) {
             val user_and_repo = repo_full_name.split("/")
             val user = user_and_repo[0]
             val repo = user_and_repo[1]
             Log.d(DBG_TAG, "[request] ${user}/${repo}" )
-            request = service.requestIssues(token_string, user, repo)
+            request = service.getUserIssues(token_string, user, repo)
             allIssueFlag = false
         }
         else {
-            request = service.requestAllIssues(token_string)
+            request = service.getAllMyIssues(token_string)
             allIssueFlag = true
         }
 
@@ -103,7 +104,6 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
          * A loading view will show up in lieu of the actual contents in the interim
          */
 
-        // setViewVisibility로 issue_repository를 안보이게 만들 수 있긴 한데, padding처리를 따로 해줘야해서 지저분하고, 아래처럼 처리하는게 더 좋은 방법이다.
         val view = RemoteViews(context.packageName, if (allIssueFlag) R.layout.issue_item_title_repo else R.layout.issue_item_only_title)
         view.setTextViewText(R.id.issue_title, issueItems[position].title)
         if (allIssueFlag) {
@@ -111,7 +111,6 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
         }
 
         // 위젯 버튼에 웹브라우저로 연결하는 이벤트 달기.
-        // 이 것도 Chrome Custom Tab으로 해버리지 뭐. 그래야 앱에 자연스럽게 포함된 기능같이 보이니까.
         // 이렇게 등록하면, Provider의 onUpdate에서 등록한 PendingIntent 대로 Intent가 발생한다.
         val intent = Intent()
         intent.putExtra("url", issueItems[position].html_url)

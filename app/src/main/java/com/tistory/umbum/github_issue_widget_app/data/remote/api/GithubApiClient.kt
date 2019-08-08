@@ -23,17 +23,17 @@ object GithubApiClient {
 
     interface Service {
         @GET("users/{user}/repos")
-        fun requestUserRepos(@Path("user") user: String): Call<JsonArray>
+        fun getUserRepos(@Path("user") user: String): Call<JsonArray>
 
         @GET("/user/repos")
-        fun requestAccountRepos(@Header("Authorization") token_string: String): Call<List<RepoItem>>
+        fun getMyRepos(@Header("Authorization") token_string: String): Call<List<RepoItem>>
 
         @GET("/repos/{user}/{repo}/issues")
-        fun requestIssues(@Header("Authorization") token_string: String,
+        fun getUserIssues(@Header("Authorization") token_string: String,
                           @Path("user") user: String,
                           @Path("repo") repo: String): Call<List<IssueItem>>
 
         @GET("/issues")
-        fun requestAllIssues(@Header("Authorization") token_string: String): Call<List<IssueItem>>
+        fun getAllMyIssues(@Header("Authorization") token_string: String): Call<List<IssueItem>>
     }
 }
