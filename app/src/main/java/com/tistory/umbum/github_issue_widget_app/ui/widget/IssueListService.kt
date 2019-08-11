@@ -55,7 +55,7 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
         Log.d(TAG, "onDataSetChanged: start / appWidgetId${appWidgetId}")
         val accessToken = accessTokenRepository.accessToken
         if (accessToken == null) {
-            Log.d(TAG, "onDataSetChanged: access_token is null")
+            Log.d(TAG, "onDataSetChanged: accessToken is null")
             return
         }
 
@@ -101,13 +101,13 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
         val view = RemoteViews(context.packageName, if (allIssueFlag) R.layout.issue_item_title_repo else R.layout.issue_item_only_title)
         view.setTextViewText(R.id.issue_title, issueItems[position].title)
         if (allIssueFlag) {
-            view.setTextViewText(R.id.issue_repository, issueItems[position].repository.full_name)
+            view.setTextViewText(R.id.issue_repository, issueItems[position].repository.fullName)
         }
 
         // 위젯 버튼에 웹브라우저로 연결하는 이벤트 달기.
         // 이렇게 등록하면, Provider의 onUpdate에서 등록한 PendingIntent 대로 Intent가 발생한다.
         val intent = Intent()
-        intent.putExtra("url", issueItems[position].html_url)
+        intent.putExtra("url", issueItems[position].htmlUrl)
         view.setOnClickFillInIntent(R.id.issue_item, intent)
 
         // Return the remote views object.

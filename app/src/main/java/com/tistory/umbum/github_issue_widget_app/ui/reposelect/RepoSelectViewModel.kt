@@ -32,7 +32,7 @@ class RepoSelectViewModel(app: Application) : AndroidViewModel(app) {
     fun requestRepos() {
         val access_token = accessTokenRepository.accessToken
         if (access_token == null) {
-            Log.d(TAG, "RepoSelectViewModel.requestRepos: access_token is null")
+            Log.d(TAG, "RepoSelectViewModel.requestRepos: accessToken is null")
             Toast.makeText(getApplication(), "You need to sign in.", Toast.LENGTH_LONG).show()
             return
         }

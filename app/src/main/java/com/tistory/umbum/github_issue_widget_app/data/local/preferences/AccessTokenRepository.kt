@@ -5,8 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
 import com.tistory.umbum.github_issue_widget_app.CLIENT_SECRET
-import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubClient
 import com.tistory.umbum.github_issue_widget_app.data.model.AccessTokenResponse
+import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,14 +15,14 @@ class AccessTokenRepository(private val context: Context) {
     var accessToken: String?
         get() = context.applicationContext
                 .getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-                .getString("access_token", null)
+                .getString("accessToken", null)
         set(accessToken) {
             accessToken ?: throw NullPointerException()
 
             context.applicationContext
                     .getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
                     .edit()
-                    .putString("access_token", accessToken)
+                    .putString("accessToken", accessToken)
                     .apply()
         }
 
@@ -35,8 +35,8 @@ class AccessTokenRepository(private val context: Context) {
             }
 
             override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
-                accessTokenLiveData.value = response.body()?.access_token
-                accessToken = response.body()?.access_token
+                accessTokenLiveData.value = response.body()?.accessToken
+                accessToken = response.body()?.accessToken
             }
         })
         return accessTokenLiveData

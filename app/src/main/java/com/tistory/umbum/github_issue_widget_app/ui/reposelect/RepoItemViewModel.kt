@@ -10,12 +10,12 @@ import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
 class RepoItemViewModel(private val repoItem: RepoItem, private val listener: RepoItemViewModelListener): ViewModel() {
     val id = ObservableInt(repoItem.id)
     val name = ObservableField<String>(repoItem.name)
-    val fullName = ObservableField<String>(repoItem.full_name)
+    val fullName = ObservableField<String>(repoItem.fullName)
     val private = ObservableBoolean(repoItem.private)
-    val openIssuesCount = ObservableInt(repoItem.open_issues_count)
+    val openIssuesCount = ObservableInt(repoItem.openIssuesCount)
 
     fun onItemClick() {
-        listener.onItemClick(repoItem.full_name)
+        listener.onItemClick(repoItem.fullName)
     }
 
     interface RepoItemViewModelListener {
