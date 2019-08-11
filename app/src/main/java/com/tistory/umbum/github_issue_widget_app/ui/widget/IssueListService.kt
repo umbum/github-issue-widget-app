@@ -41,7 +41,6 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
     }
 
     override fun getLoadingView(): RemoteViews? {
-        // TODO("원래 nulltype 아님. 수정할 것")
         return null
     }
 
@@ -51,7 +50,6 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
     }
 
     override fun onDataSetChanged() {
-        // 이게 호출이 되면, 자동으로 getViewAt을 호출하게 됨.
         Log.d(TAG, "onDataSetChanged: start / appWidgetId${appWidgetId}")
         val accessToken = accessTokenRepository.accessToken
         if (accessToken == null) {
