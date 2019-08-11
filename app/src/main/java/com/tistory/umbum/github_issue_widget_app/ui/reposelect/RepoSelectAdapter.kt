@@ -2,16 +2,14 @@ package com.tistory.umbum.github_issue_widget_app.ui.reposelect
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
+import com.tistory.umbum.github_issue_widget_app.data.local.preferences.UserSelectedRepository
 import com.tistory.umbum.github_issue_widget_app.databinding.RepoItemBinding
 import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
 import com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget
@@ -36,6 +34,7 @@ class RepoSelectAdapter(private val appWidgetId: Int)
 
     inner class RepoViewHolder(view: View): RecyclerView.ViewHolder(view), RepoItemViewModel.RepoItemViewModelListener {
         val binding: RepoItemBinding = DataBindingUtil.bind(view)!!
+        private val userSelectedRepository = UserSelectedRepository(itemView.context)
 
         fun onBind(position: Int) {
             binding.vm = RepoItemViewModel(items.get(position), this)
@@ -44,12 +43,8 @@ class RepoSelectAdapter(private val appWidgetId: Int)
         override fun onItemClick(fullName: String) {
             val context = itemView.context
             val activity = context as Activity
-            val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
 
-            val editor = sharedPreferences.edit()
-            editor.putString("selected_repo_for_id${appWidgetId}", fullName)
-            editor.apply()
-            Log.d(DBG_TAG, "[save] selected_repo_for_id${appWidgetId} : ${fullName}")
+            userSelectedRepository.setSelectedRepoPath(appWidgetId, fullName)
 
             val updateIntent = Intent(context, IssueWidget::class.java)
             updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)

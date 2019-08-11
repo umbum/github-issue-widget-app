@@ -8,10 +8,10 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.RemoteViews
-import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_TEXT
 import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.ui.config.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.R
+import com.tistory.umbum.github_issue_widget_app.data.local.preferences.UserSelectedRepository
 import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
 import com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectActivity
 
@@ -72,13 +72,11 @@ class IssueWidget : AppWidgetProvider() {
              */
             val views = RemoteViews(context.packageName, R.layout.issue_widget)
             Log.d(DBG_TAG, "IssueWidget.onUpdate: id ${appWidgetId}")
-            val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-            var repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", null)
-            if (repo_full_name == null) {
-                val editor = sharedPreferences.edit()
-                editor.putString("selected_repo_for_id${appWidgetId}", ALL_ISSUES_TEXT)
-                editor.apply()
-            }
+
+            val userSelectedRepository = UserSelectedRepository(context)
+            val repoPath = userSelectedRepository.getSelectedRepoPath(appWidgetId)
+            views.setTextViewText(R.id.repo_select_btn, repoPath)
+            Log.d(DBG_TAG, "[set repo btn text] ${repoPath}")
 
             // repo select button
             val repoSelectIntent = Intent(context, RepoSelectActivity::class.java)
@@ -98,9 +96,7 @@ class IssueWidget : AppWidgetProvider() {
             val settingPendingIntent = PendingIntent.getActivity(context, 0, settingIntent, 0)
             views.setOnClickPendingIntent(R.id.setting_btn, settingPendingIntent)
 
-            // issue list view
-            // 위젯을 update할 필요가 있을 때, issue_list_view내부의 데이터를 만들기 위해서
-            // IssueListService에 intent를 보내 실행하게 된다.
+            // issue list view의 데이터를 만들기 위해서 IssueListService에 intent를 보낸다.
             val intent = Intent(context, IssueListService::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)))
@@ -115,8 +111,7 @@ class IssueWidget : AppWidgetProvider() {
             이 때 주의할 점. Item이 Button이면 안된다. TextView여야만 하는지는 모르겠는데 TextView로 하면 잘 됨.
              */
             // 리스트뷰 아이템이 클릭되었을 때 어디로 Intent를 보낼지를 지정해야 한다.
-            // IssueWidget으로 Intent를 보내게 되고 ACTION_CLICK을 지정했으니,
-            // IssueWidget의 onReceive에서 action으로 구할 수 있음.
+            // IssueWidget으로 Intent를 보내게 되고 ACTION_CLICK을 지정했으니, onReceive에서 action으로 구할 수 있다.
             val clickIntent = Intent(context, IssueWidget::class.java)
             clickIntent.setAction(ACTION_CLICK)
             clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
@@ -128,17 +123,9 @@ class IssueWidget : AppWidgetProvider() {
             views.setEmptyView(R.id.issue_list_view, R.id.issue_empty_view)
 
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.issue_list_view)
-            setRepoSelectBtnText(context, appWidgetId, views)
 
             // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(appWidgetId, views)
-        }
-
-        internal fun setRepoSelectBtnText(context: Context, appWidgetId: Int, views: RemoteViews) {
-            val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-            val repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", "[None]")
-            views.setTextViewText(R.id.repo_select_btn, repo_full_name)
-            Log.d(DBG_TAG, "[set repo btn text] ${repo_full_name}")
         }
     }
 }

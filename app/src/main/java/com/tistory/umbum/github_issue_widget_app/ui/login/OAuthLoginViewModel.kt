@@ -12,7 +12,7 @@ class OAuthLoginViewModel(app: Application): AndroidViewModel(app) {
     lateinit var accessTokenLiveData: LiveData<String?>
 
     fun initAccessTokenLiveData(code: String) {
-        accessTokenLiveData = accessTokenRepository.resolveAccessToken(code)
+        accessTokenLiveData = accessTokenRepository.updateAccessToken(code)
     }
 }
 

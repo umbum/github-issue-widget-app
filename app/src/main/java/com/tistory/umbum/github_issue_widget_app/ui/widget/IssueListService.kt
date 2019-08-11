@@ -7,13 +7,12 @@ import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_TEXT
-import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
+import com.tistory.umbum.github_issue_widget_app.data.local.preferences.AccessTokenRepository
+import com.tistory.umbum.github_issue_widget_app.data.local.preferences.UserSelectedRepository
 import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
 import com.tistory.umbum.github_issue_widget_app.data.model.IssueItem
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class IssueListService : RemoteViewsService() {
@@ -24,10 +23,16 @@ class IssueListService : RemoteViewsService() {
 
 
 class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsService.RemoteViewsFactory {
-    val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-    val sharedPreferences = context.getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-    var allIssueFlag = false
+    val TAG = this::class.java.simpleName
+
+    private val userSelectedRepository = UserSelectedRepository(context)
+    private val accessTokenRepository = AccessTokenRepository(context)
+    private val githubApiClient = GithubApiClient.client
+
     private var issueItems = emptyList<IssueItem>()
+
+    val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+    var allIssueFlag = false
 
     override fun onCreate() {
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
@@ -47,48 +52,37 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
 
     override fun onDataSetChanged() {
         // 이게 호출이 되면, 자동으로 getViewAt을 호출하게 됨.
-        Log.d(DBG_TAG, "onDataSetChanged: start / appWidgetId${appWidgetId}")
-        val access_token = sharedPreferences.getString("access_token", null)
-        if (access_token == null) {
-            Log.d(DBG_TAG, "onDataSetChanged: access_token is null")
+        Log.d(TAG, "onDataSetChanged: start / appWidgetId${appWidgetId}")
+        val accessToken = accessTokenRepository.accessToken
+        if (accessToken == null) {
+            Log.d(TAG, "onDataSetChanged: access_token is null")
             return
         }
 
-        val token_string = "token ${access_token}"
-        Log.d(DBG_TAG, "IssueListFactory.onDataSetChanged: ${token_string}")
+        val tokenString = "token ${accessToken}"
+        Log.d(TAG, "IssueListFactory.onDataSetChanged: ${tokenString}")
 
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val service = retrofit.create(GithubApiClient.Service::class.java)
+        val repoPath = userSelectedRepository.getSelectedRepoPath(appWidgetId)
         val request: Call<List<IssueItem>>
-
-        // sharedPreference에서 해당 위젯에서 선택된 repo이름을 가져온다.
-        var repo_full_name = sharedPreferences.getString("selected_repo_for_id${appWidgetId}", ALL_ISSUES_TEXT);
-
-        if (repo_full_name != ALL_ISSUES_TEXT) {
-            val user_and_repo = repo_full_name.split("/")
-            val user = user_and_repo[0]
-            val repo = user_and_repo[1]
-            Log.d(DBG_TAG, "[request] ${user}/${repo}" )
-            request = service.getUserIssues(token_string, user, repo)
+        if (repoPath != ALL_ISSUES_TEXT) {
+            val (user, repo) = repoPath.split("/")
+            request = githubApiClient.getUserIssues(tokenString, user, repo)
             allIssueFlag = false
         }
         else {
-            request = service.getAllMyIssues(token_string)
+            request = githubApiClient.getAllMyIssues(tokenString)
             allIssueFlag = true
         }
 
         // enqueue로 안하고 execute로 하는건, 이 함수가 끝나고 나서 getCount가 호출되면서 그 크기만큼 getViewAt이 호출되는데
-        // 비동기 함수를 쓰면, 이 함수가 바로 종료되어 버리기 때문에 getCount 값이 이전 크기를 리턴해버린다.
+        // 비동기 함수를 쓰면 이 함수가 바로 종료되어 버리기 때문에 getCount 값이 이전 크기를 리턴해버린다.
         val issues = request.execute().body()
         if (issues != null) {
-            Log.d(DBG_TAG, "[receive] the number of issues = ${issues.size}")
+            Log.d(TAG, "[receive] the number of issues = ${issues.size}")
             issueItems = issues
         }
         else {
-            Log.d(DBG_TAG, "[receive] issues == null. something wrong.")
+            Log.d(TAG, "[receive] issues == null. something wrong.")
         }
     }
 
@@ -122,7 +116,7 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
 
     override fun getCount(): Int {
         // 0..getCount()만큼 getViewAt()이 호출된다.
-        Log.d(DBG_TAG, "IssueListFactory.getCount: return ${issueItems.size}")
+        Log.d(TAG, "IssueListFactory.getCount: return ${issueItems.size}")
         return issueItems.size
     }
 

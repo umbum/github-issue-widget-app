@@ -26,7 +26,7 @@ class AccessTokenRepository(private val context: Context) {
                     .apply()
         }
 
-    fun resolveAccessToken(code: String): LiveData<String?> {
+    fun updateAccessToken(code: String): LiveData<String?> {
         val accessTokenLiveData = MutableLiveData<String?>()
         GithubClient.client.requestAccessToken(CLIENT_ID, CLIENT_SECRET, code).enqueue(object : Callback<AccessTokenResponse> {
             override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
