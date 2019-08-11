@@ -11,7 +11,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <receiver android:name=".widget.IssueWidget">
+        <receiver android:name="com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -22,14 +22,14 @@
         </receiver>
 
         <service
-                android:name=".widget.IssueListService"
+                android:name="com.tistory.umbum.github_issue_widget_app.ui.widget.IssueListService"
                 android:enabled="true"
                 android:exported="false"
                 android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
 
         <activity
-                android:name=".LoginActivity"
+                android:name=".ui.login.OAuthLoginActivity"
                 android:label="@string/app_name"
                 android:launchMode="singleTask">
             <intent-filter>
@@ -44,14 +44,17 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ConfigActivity"
-                android:label="@string/title_activity_config">
+                android:name=".ui.config.ConfigActivity"
+                android:label="@string/title_activity_config"
+                android:theme="@style/Theme.AppCompat.DayNight">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".RepoSelectActivity">
+        <activity
+            android:name=".ui.reposelect.RepoSelectActivity"
+            android:theme="@style/RepoSelectDialog">
         </activity>
     </application>
 

@@ -9,18 +9,21 @@
             android:paddingRight="12dp"
             android:paddingLeft="12dp"
             android:background="@drawable/border_bottom">
+
         <Button
-                android:id="@+id/repo_select_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Github Issues"
-                android:gravity="center"
-                android:textSize="17sp"
-                android:textColor="#000"
-                android:textAllCaps="false"
-                android:drawableEnd="@drawable/change_repo"
-                android:drawablePadding="10dp"
-                android:background="#00000000"/>
+            android:id="@+id/repo_select_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="80dp"
+            android:background="#00000000"
+            android:drawableEnd="@drawable/change_repo"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Github Issues"
+            android:textAllCaps="false"
+            android:textColor="#000"
+            android:textSize="17sp" />
 
         <ImageButton
                 android:id="@+id/update_btn"
