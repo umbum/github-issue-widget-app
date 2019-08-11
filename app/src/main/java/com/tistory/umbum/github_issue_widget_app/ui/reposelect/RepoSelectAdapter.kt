@@ -29,15 +29,15 @@ class RepoSelectAdapter(private val appWidgetId: Int)
 
 
     override fun onBindViewHolder(repoViewHolder: RepoViewHolder, position: Int) {
-        repoViewHolder.onBind(position)
+        repoViewHolder.onBind(items.get(position))
     }
 
     inner class RepoViewHolder(view: View): RecyclerView.ViewHolder(view), RepoItemViewModel.RepoItemViewModelListener {
         val binding: RepoItemBinding = DataBindingUtil.bind(view)!!
         private val userSelectedRepository = UserSelectedRepository(itemView.context)
 
-        fun onBind(position: Int) {
-            binding.vm = RepoItemViewModel(items.get(position), this)
+        fun onBind(item: RepoItem) {
+            binding.vm = RepoItemViewModel(item, this)
         }
 
         override fun onItemClick(fullName: String) {
