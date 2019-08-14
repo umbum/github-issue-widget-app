@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import android.util.Log
 import android.widget.RemoteViews
@@ -53,7 +54,7 @@ class IssueWidget : AppWidgetProvider() {
             }
             ACTION_CLICK -> {
                 val url = intent.extras?.getString("url")
-                url?.let { openCustomTab(context, url) } ?: Log.d(DBG_TAG, "[onReceive] url is null")
+                url?.let { openCustomTab(context, url, FLAG_ACTIVITY_NEW_TASK) } ?: Log.d(DBG_TAG, "[onReceive] url is null")
             }
             else -> {
                 Log.d(DBG_TAG, "[onReceive] action = ${intent.action}")
