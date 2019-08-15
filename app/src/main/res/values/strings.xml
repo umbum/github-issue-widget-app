@@ -16,4 +16,6 @@
     <!-- Strings related to Configure -->
     <string name="title_activity_config">Settings</string>
     <string name="config_login">Login</string>
+
+    <string name="no_issue">There is no issue!</string>
 </resources>

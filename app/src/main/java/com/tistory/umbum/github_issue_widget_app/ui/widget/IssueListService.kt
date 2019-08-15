@@ -114,7 +114,6 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
 
     override fun getCount(): Int {
         // 0..getCount()만큼 getViewAt()이 호출된다.
-        Log.d(TAG, "IssueListFactory.getCount: return ${issueItems.size}")
         return issueItems.size
     }
 
