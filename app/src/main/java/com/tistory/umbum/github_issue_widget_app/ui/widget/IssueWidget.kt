@@ -9,12 +9,11 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import android.util.Log
 import android.widget.RemoteViews
-import com.tistory.umbum.github_issue_widget_app.DBG_TAG
-import com.tistory.umbum.github_issue_widget_app.ui.config.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.data.local.preferences.UserSelectedRepository
-import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
+import com.tistory.umbum.github_issue_widget_app.ui.config.ConfigActivity
 import com.tistory.umbum.github_issue_widget_app.ui.reposelect.RepoSelectActivity
+import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
 
 
 const val ACTION_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE"
@@ -23,6 +22,7 @@ const val ACTION_CLICK = "android.appwidget.action.ISSUE_CLICK"
  * IssueWidgetProvider
  */
 class IssueWidget : AppWidgetProvider() {
+    val TAG = this::class.java.simpleName
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
@@ -49,20 +49,22 @@ class IssueWidget : AppWidgetProvider() {
                     updateAppWidget(context, appWidgetManager, appWidgetId)
                 }
                 else {
-                    Log.d(DBG_TAG, "onReceive(broadcast receive) : appWidgetId is null")
+                    Log.d(TAG, "onReceive(broadcast receive) : appWidgetId is null")
                 }
             }
             ACTION_CLICK -> {
                 val url = intent.extras?.getString("url")
-                url?.let { openCustomTab(context, url, FLAG_ACTIVITY_NEW_TASK) } ?: Log.d(DBG_TAG, "[onReceive] url is null")
+                url?.let { openCustomTab(context, url, FLAG_ACTIVITY_NEW_TASK) } ?: Log.d(TAG, "[onReceive] url is null")
             }
             else -> {
-                Log.d(DBG_TAG, "[onReceive] action = ${intent.action}")
+                Log.d(TAG, "[onReceive] action = ${intent.action}")
             }
         }
     }
 
     companion object {
+
+        val TAG = this::class.java.simpleName
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
@@ -72,12 +74,12 @@ class IssueWidget : AppWidgetProvider() {
              appWidgetManager를 통해 런쳐 어플리케이션에 전달하면, 런쳐 어플리케이션이 이 뷰를 그리는 방식으로 동작한다.
              */
             val views = RemoteViews(context.packageName, R.layout.issue_widget)
-            Log.d(DBG_TAG, "IssueWidget.onUpdate: id ${appWidgetId}")
+            Log.d(TAG, "IssueWidget.onUpdate: id ${appWidgetId}")
 
             val userSelectedRepository = UserSelectedRepository(context)
             val repoPath = userSelectedRepository.getSelectedRepoPath(appWidgetId)
             views.setTextViewText(R.id.repo_select_btn, repoPath)
-            Log.d(DBG_TAG, "[set repo btn text] ${repoPath}")
+            Log.d(TAG, "[set repo btn text] ${repoPath}")
 
             // repo select button
             val repoSelectIntent = Intent(context, RepoSelectActivity::class.java)
