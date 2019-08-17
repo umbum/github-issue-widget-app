@@ -63,8 +63,7 @@ class IssueWidget : AppWidgetProvider() {
     }
 
     companion object {
-
-        val TAG = this::class.java.simpleName
+        val TAG = this::class.java.enclosingClass.simpleName + "\$companion"
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
