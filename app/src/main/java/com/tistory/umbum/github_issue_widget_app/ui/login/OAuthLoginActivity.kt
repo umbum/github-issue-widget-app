@@ -3,6 +3,8 @@ package com.tistory.umbum.github_issue_widget_app.ui.login
 import android.appwidget.AppWidgetManager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,12 +12,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.tistory.umbum.github_issue_widget_app.CLIENT_ID
-import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.REDIRECT_URI
 import com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget
 import com.tistory.umbum.github_issue_widget_app.util.openCustomTab
-import android.content.ComponentName
-import android.content.Context
 
 
 /**
@@ -24,6 +23,8 @@ import android.content.Context
  * 그냥 OAuthLoginActivity onCreate하자 마자 CCT로 OAuth 로그인하도록 넘어가게 구성했다.
  */
 class OAuthLoginActivity : AppCompatActivity() {
+    val TAG = this::class.java.simpleName
+
     private val viewModel: OAuthLoginViewModel by lazy {
         ViewModelProviders
                 .of(this, OAuthLoginViewModelFactory(this.application))
@@ -51,7 +52,7 @@ class OAuthLoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val intent = getIntent()
-        Log.d(DBG_TAG, "OAuthLoginActivity.onResume: intent is ${intent?.action}")
+        Log.d(TAG, "OAuthLoginActivity.onResume: intent is ${intent?.action}")
     }
 
     /**
@@ -81,10 +82,10 @@ class OAuthLoginActivity : AppCompatActivity() {
                     finish()
                 })
             } else {
-                Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent.data or getQueryParameter('code') is null")
+                Log.d(TAG, "OAuthLoginActivity.onNewIntent: intent.data or getQueryParameter('code') is null")
             }
         } else {
-            Log.d(DBG_TAG, "OAuthLoginActivity.onNewIntent: intent is ${intent?.action}")
+            Log.d(TAG, "OAuthLoginActivity.onNewIntent: intent is ${intent?.action}")
         }
     }
 

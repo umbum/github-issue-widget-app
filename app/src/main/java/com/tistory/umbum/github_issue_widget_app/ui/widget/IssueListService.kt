@@ -114,17 +114,14 @@ class IssueListFactory(val context: Context, val intent: Intent): RemoteViewsSer
 
     override fun getCount(): Int {
         // 0..getCount()만큼 getViewAt()이 호출된다.
-        Log.d(TAG, "IssueListFactory.getCount: return ${issueItems.size}")
         return issueItems.size
     }
 
     override fun getViewTypeCount(): Int {
-        // issue_item의 layout으로 2종류를 사용하니까, getViewTypeCount는 2를 리턴해야 한다.
-        return 2
+        return 2 // issue_item의 layout으로 2종류를 사용하고 있다.
     }
 
     override fun onDestroy() {
-        // In onDestroy() you should tear down anything that was setup for your data source,
-        // eg. cursors, connections, etc.
+        userSelectedRepository.removeSelectedRepoPath(appWidgetId);
     }
 }

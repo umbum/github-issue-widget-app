@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import com.tistory.umbum.github_issue_widget_app.DBG_TAG
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.databinding.ActivityRepoSelectBinding
 
 class RepoSelectActivity : AppCompatActivity() {
+    val TAG = this::class.java.simpleName
 
     private val viewModel: RepoSelectViewModel by lazy {
         ViewModelProviders
@@ -26,7 +26,7 @@ class RepoSelectActivity : AppCompatActivity() {
 
         val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            Log.d(DBG_TAG, "RepoSelectActivity: appWidgetId is INVALID")
+            Log.d(TAG, "RepoSelectActivity: appWidgetId is INVALID")
             return
         }
 

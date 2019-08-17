@@ -1,4 +1,4 @@
-package com.tistory.umbum.github_issue_widget_app.ui.reposelect
+package com.tistory.umbum.github_issue_widget_app.ui
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
