@@ -43,13 +43,13 @@ class IssueWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
         when (intent.action) {
             ACTION_UPDATE -> {
-                val appWidgetId = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+                val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
                 if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
                     val appWidgetManager = AppWidgetManager.getInstance(context)
                     updateAppWidget(context, appWidgetManager, appWidgetId)
                 }
                 else {
-                    Log.d(TAG, "onReceive(broadcast receive) : appWidgetId is null")
+                    Log.d(TAG, "onReceive(broadcast receive) : INVALID_APPWIDGET_ID")
                 }
             }
             ACTION_CLICK -> {
@@ -84,7 +84,7 @@ class IssueWidget : AppWidgetProvider() {
             // repo select button
             val repoSelectIntent = Intent(context, RepoSelectActivity::class.java)
             repoSelectIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId) // 위젯 마다 다른 repo를 선택할 수 있어야 하므로. 어떤 위젯에서 레포 선택을 호출했는지 정보 필요.
-            val repoSelectPendingIntent = PendingIntent.getActivity(context, 0, repoSelectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val repoSelectPendingIntent = PendingIntent.getActivity(context, appWidgetId, repoSelectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             views.setOnClickPendingIntent(R.id.repo_select_btn, repoSelectPendingIntent)
 
             // update button
