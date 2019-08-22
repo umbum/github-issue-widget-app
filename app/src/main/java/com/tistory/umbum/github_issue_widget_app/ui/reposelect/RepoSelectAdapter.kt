@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.data.local.preferences.UserSelectedRepository
-import com.tistory.umbum.github_issue_widget_app.databinding.RepoItemBinding
 import com.tistory.umbum.github_issue_widget_app.data.model.RepoItem
+import com.tistory.umbum.github_issue_widget_app.databinding.RepoItemBinding
 import com.tistory.umbum.github_issue_widget_app.ui.widget.IssueWidget
 
 

@@ -1,17 +1,18 @@
 package com.tistory.umbum.github_issue_widget_app.data.model
 
-data class IssueItem(val id: Int,
-                     val title: String,
-                     val htmlUrl: String,
-                     val labels: List<LabelItem>,
-                     val repository: RepoItem
-                     )
+import com.google.gson.annotations.SerializedName
 
-data class LabelItem(val name: String,
-                     val color: String)
+data class IssueItem(@SerializedName("id") val id: Int,
+                     @SerializedName("title") val title: String,
+                     @SerializedName("html_url") val htmlUrl: String,
+                     @SerializedName("labels") val labels: List<LabelItem>,
+                     @SerializedName("repository") val repository: RepoItem)
 
-data class RepoItem(val id: Int,
-                    val name: String,
-                    val fullName: String,
-                    val private: Boolean,
-                    val openIssuesCount: Int)
+data class LabelItem(@SerializedName("name") val name: String,
+                     @SerializedName("color") val color: String)
+
+data class RepoItem(@SerializedName("id") val id: Int,
+                    @SerializedName("name") val name: String,
+                    @SerializedName("full_name") val fullName: String,
+                    @SerializedName("private") val private: Boolean,
+                    @SerializedName("open_issues_count") val openIssuesCount: Int)

@@ -1,7 +1,5 @@
 package com.tistory.umbum.github_issue_widget_app.data.remote.api
 
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
 import com.tistory.umbum.github_issue_widget_app.data.model.AccessTokenResponse
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -15,12 +13,9 @@ import retrofit2.http.POST
 const val GITHUB_URL = "https://github.com/"
 
 object GithubClient {
-    private val gson = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create()
     val client = Retrofit.Builder()
             .baseUrl(GITHUB_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Service::class.java)
 
