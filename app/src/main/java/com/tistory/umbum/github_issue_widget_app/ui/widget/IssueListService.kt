@@ -10,8 +10,8 @@ import com.tistory.umbum.github_issue_widget_app.ALL_ISSUES_TEXT
 import com.tistory.umbum.github_issue_widget_app.R
 import com.tistory.umbum.github_issue_widget_app.data.local.preferences.AccessTokenRepository
 import com.tistory.umbum.github_issue_widget_app.data.local.preferences.UserSelectedRepository
-import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
 import com.tistory.umbum.github_issue_widget_app.data.model.IssueItem
+import com.tistory.umbum.github_issue_widget_app.data.remote.api.GithubApiClient
 import retrofit2.Call
 
 
