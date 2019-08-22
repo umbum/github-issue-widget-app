@@ -15,12 +15,9 @@ import retrofit2.http.Path
 const val GITHUB_API_URL = "https://api.github.com/"
 
 object GithubApiClient {
-    private val gson = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create()
     val client = Retrofit.Builder()
             .baseUrl(GITHUB_API_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Service::class.java)
 

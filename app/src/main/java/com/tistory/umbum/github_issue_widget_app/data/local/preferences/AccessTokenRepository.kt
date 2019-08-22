@@ -13,18 +13,11 @@ import retrofit2.Response
 
 class AccessTokenRepository(private val context: Context) {
     var accessToken: String?
-        get() = context.applicationContext
-                .getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-                .getString("accessToken", null)
-        set(accessToken) {
-            accessToken ?: throw NullPointerException()
+        get() = sharedPref.getString("accessToken", null)
+        set(accessToken) = sharedPref.edit().putString("accessToken", accessToken).apply()
 
-            context.applicationContext
-                    .getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("accessToken", accessToken)
-                    .apply()
-        }
+    private val sharedPref = context.applicationContext
+                                .getSharedPreferences("SETTINGS", Context.MODE_PRIVATE)
 
     fun updateAccessToken(code: String): LiveData<String?> {
         val accessTokenLiveData = MutableLiveData<String?>()

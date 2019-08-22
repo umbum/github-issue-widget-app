@@ -1,5 +1,7 @@
 package com.tistory.umbum.github_issue_widget_app.data.model
 
-data class AccessTokenResponse(val accessToken: String,
-                               val tokenType: String,
-                               val scope: String)
+import com.google.gson.annotations.SerializedName
+
+data class AccessTokenResponse(@SerializedName("access_token") val accessToken: String,
+                               @SerializedName("token_type") val tokenType: String,
+                               @SerializedName("scope") val scope: String)
