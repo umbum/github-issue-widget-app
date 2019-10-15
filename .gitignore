@@ -10,3 +10,4 @@
 .idea
 gradle.properties
 *.keystore
+/app/release
